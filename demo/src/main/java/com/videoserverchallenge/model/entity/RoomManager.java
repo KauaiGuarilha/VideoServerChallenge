@@ -1,11 +1,10 @@
 package com.videoserverchallenge.model.entity;
 
 import com.videoserverchallenge.model.dto.RoomDTO;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RoomManager {
@@ -21,7 +20,7 @@ public class RoomManager {
         RoomManager.roomList.add(room);
     }
 
-    public static void removeRoom(RoomDTO room){
+    public static void removeRoom(RoomDTO room) {
         RoomManager.roomList.remove(room);
     }
 }

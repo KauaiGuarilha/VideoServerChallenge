@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoomDTOResponseFactory {
 
-    public RoomDTOResponse dtoToResponse(RoomDTO dto){
+    public RoomDTOResponse dtoToResponse(RoomDTO dto) {
         return RoomDTOResponse.builder()
                 .id(dto.getId())
                 .roomName(dto.getRoomName())

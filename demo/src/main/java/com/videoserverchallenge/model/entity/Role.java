@@ -1,12 +1,11 @@
 package com.videoserverchallenge.model.entity;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.*;
 
 @Data
 @Entity

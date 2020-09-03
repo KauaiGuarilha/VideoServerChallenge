@@ -2,18 +2,17 @@ package com.videoserverchallenge.model.service;
 
 import com.videoserverchallenge.model.entity.User;
 import com.videoserverchallenge.model.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     @Autowired private UserRepository repository;
 
-    public User saveUser(User use){
+    public User saveUser(User use) {
         try {
             User userSave = repository.save(use);
             return userSave;
@@ -22,7 +21,7 @@ public class UserService {
         }
     }
 
-    public User returnUser(String userName){
+    public User returnUser(String userName) {
         try {
             User user = repository.findByUser(userName);
             return user;
@@ -31,18 +30,18 @@ public class UserService {
         }
     }
 
-    public List<User> returnListUser(){
+    public List<User> returnListUser() {
         return repository.findAll();
     }
 
-    public void deleteUser(String id){
+    public void deleteUser(String id) {
         repository.deleteById(Long.parseLong(id));
     }
 
-    public User update(User user, String id){
+    public User update(User user, String id) {
         Optional<User> optional = repository.findById(Long.parseLong(id));
 
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             User db = optional.get();
             db.setName(user.getName());
             db.setPassword(user.getPassword());
