@@ -23,4 +23,12 @@ public class UserDTOResponseFactory {
                 .mobileToken(dto.getMobileToken())
                 .build();
     }
+
+    public UserDTO toUserDTO(User dto) {
+        return UserDTO.builder()
+                .name(dto.getName())
+                .password(dto.getPassword())
+                .mobileToken(dto.getMobileToken())
+                .build();
+    }
 }

@@ -6,18 +6,47 @@ import com.videoserverchallenge.model.dto.UserDTO;
 import com.videoserverchallenge.model.entity.RoomManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+
+import com.videoserverchallenge.model.entity.User;
+import com.videoserverchallenge.model.factory.UserDTOResponseFactory;
+import com.videoserverchallenge.model.parse.UserParser;
+import com.videoserverchallenge.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RoomService {
 
-    @Autowired RoomManager roomManager;
+    @Autowired private UserParser roomParser;
+    @Autowired private RoomManager roomManager;
+    @Autowired private UserDTOResponseFactory factory;
+    @Autowired private UserRepository repository;
 
-    public RoomDTO createRoom(RoomDTO dto) {
-        roomManager.setRoomList(dto);
-        return dto;
+    public RoomDTO createRoom(String nameRoom, Integer capacityRoom, String host, List<String> users) {
+        UserDTO userHost = factory.toUserDTO(repository.findByUser(host));
+        if (Objects.isNull(userHost)){
+            throw new RuntimeException("There is no users registered in the database with the Host: " + host);
+        }
+
+        List<User> listUsers = getUsers(users);
+
+        List<UserDTO> listUsersDTO = new ArrayList<>();
+
+        for (User user : listUsers){
+            listUsersDTO.add(roomParser.parseTo(user));
+        }
+
+        RoomDTO roomDTO = RoomDTO.builder()
+                .capacityLimit(capacityRoom)
+                .roomName(nameRoom)
+                .userHost(userHost)
+                .users(listUsersDTO)
+                .build();
+
+        roomManager.setRoomList(roomDTO);
+        return roomDTO;
     }
 
     public RoomDTO returnInfoRoom(UUID idRoom) {
@@ -80,5 +109,18 @@ public class RoomService {
             }
         }
         return rooms;
+    }
+
+    private List<User> getUsers(List<String> users){
+        List<User> listUsers = new ArrayList<>();
+
+        for (String user : users){
+            User userBase = repository.findByUser(user);
+            if (users.isEmpty()){
+                continue;
+            }
+            listUsers.add(userBase);
+        }
+        return listUsers;
     }
 }
