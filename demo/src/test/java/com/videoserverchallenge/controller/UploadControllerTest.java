@@ -40,7 +40,7 @@ public class UploadControllerTest {
     }
 
     @Test
-    @DisplayName("Should upload a File")
+    @DisplayName("Should upload a file")
     public void shouldUploadFile() throws Exception {
 
         doReturn("Test").when(service).upload(any(String.class), any(String.class), any(MultipartFile.class));
@@ -55,7 +55,7 @@ public class UploadControllerTest {
     }
 
     @Test
-    @DisplayName("Should upload a File")
+    @DisplayName("Should save a file")
     public void shouldSaveFile() throws Exception {
 
         doReturn("Test").when(service).uploadDatabase(any(String.class), any(String.class), any(MultipartFile.class));

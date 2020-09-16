@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.StorageClient;
 import com.videoserverchallenge.model.entity.Room;
 import com.videoserverchallenge.model.repository.RoomRepository;
+import com.videoserverchallenge.utils.InitializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import java.util.Base64;
 public class FirebaseStorageService {
 
     @Autowired private RoomRepository repository;
+    @Autowired private InitializationUtils initializationUtils;
 
     public String upload(String fName, String mimiType, MultipartFile file) throws IOException {
         Bucket bucket = StorageClient.getInstance().bucket();
@@ -34,7 +36,7 @@ public class FirebaseStorageService {
         //URL public
         blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
 
-        return String.format("https://storage.googleapis.com/%s/%s", bucket.getName(), fName);
+        return String.format(initializationUtils.getStorageGoogleApis(), bucket.getName(), fName);
     }
 
     public String uploadDatabase(String fName, String mimiType, MultipartFile file) throws IOException {
@@ -42,7 +44,7 @@ public class FirebaseStorageService {
         Bucket bucket = StorageClient.getInstance().bucket();
 
         Room room = Room.builder()
-                .pathImg(String.format("https://storage.googleapis.com/%s/%s", bucket.getName(), fName))
+                .pathImg(String.format(initializationUtils.getStorageGoogleApis(), bucket.getName(), fName))
                 .build();
 
         repository.save(room);
@@ -59,8 +61,8 @@ public class FirebaseStorageService {
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(inputStream))
-                    .setStorageBucket("video-server-challenge.appspot.com")
-                    .setDatabaseUrl("https://console.cloud.google.com/storage/browser/video-server-challenge-666")
+                    .setStorageBucket(initializationUtils.getStorageBucket())
+                    .setDatabaseUrl(initializationUtils.getDatabaseUrl())
                     .build();
 
             FirebaseApp.initializeApp(options);

@@ -10,7 +10,7 @@ import com.videoserverchallenge.model.dto.UserDTOResponse;
 import com.videoserverchallenge.model.entity.User;
 import com.videoserverchallenge.model.factory.UserDTOResponseFactory;
 import com.videoserverchallenge.model.service.UserService;
-import com.videoserverchallenge.utils.JsonMapper;
+import com.videoserverchallenge.utils.JsonMapperUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +48,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                         post("/user/save")
-                                .content(JsonMapper.asJsonString(userDTO))
+                                .content(JsonMapperUtils.asJsonString(userDTO))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -65,7 +65,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                         put("/user/1")
-                                .content(JsonMapper.asJsonString(userDTO))
+                                .content(JsonMapperUtils.asJsonString(userDTO))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -81,7 +81,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                         get("/user/return/user")
-                                .content(JsonMapper.asJsonString(userDTO))
+                                .content(JsonMapperUtils.asJsonString(userDTO))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -99,7 +99,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                         get("/user/return-list")
-                                .content(JsonMapper.asJsonString(userDTO))
+                                .content(JsonMapperUtils.asJsonString(userDTO))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -114,7 +114,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                         delete("/user/delete/1")
-                                .content(JsonMapper.asJsonString(userDTO))
+                                .content(JsonMapperUtils.asJsonString(userDTO))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

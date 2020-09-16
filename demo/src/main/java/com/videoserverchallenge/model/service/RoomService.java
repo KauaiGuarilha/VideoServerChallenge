@@ -1,5 +1,6 @@
 package com.videoserverchallenge.model.service;
 
+import com.videoserverchallenge.model.domain.EMessage;
 import com.videoserverchallenge.model.dto.ChangeUserDTO;
 import com.videoserverchallenge.model.dto.RoomDTO;
 import com.videoserverchallenge.model.dto.UserDTO;
@@ -27,7 +28,7 @@ public class RoomService {
     public RoomDTO createRoom(String nameRoom, Integer capacityRoom, String host, List<String> users) {
         UserDTO userHost = factory.toUserDTO(repository.findByUser(host));
         if (Objects.isNull(userHost)){
-            throw new RuntimeException("There is no users registered in the database with the Host: " + host);
+            throw new RuntimeException(EMessage.NO_USERS_REGISTERED.getMessage() + host);
         }
 
         List<User> listUsers = getUsers(users);
@@ -55,7 +56,7 @@ public class RoomService {
                 return room;
             }
         }
-        throw new RuntimeException("Could not get room information.");
+        throw new RuntimeException(EMessage.NO_GET_ROOM_INFORMATION.getMessage());
     }
 
     public void enterRoom(UserDTO dto, UUID idRoom) {
@@ -63,7 +64,7 @@ public class RoomService {
         for (RoomDTO room : roomManager.getRoomList()) {
             if (room.getId().equals(idRoom)) {
                 if (room.getUsers().size() <= room.getCapacityLimit()) room.getUsers().add(dto);
-                else throw new RuntimeException("Could not enter the room.");
+                else throw new RuntimeException(EMessage.NO_ENTER_ROOM.getMessage());
             }
         }
     }
@@ -74,7 +75,7 @@ public class RoomService {
             if (room.getId().equals(idRoom)) {
                 if (room.getUserHost().equals(dto.getUserHost()))
                     room.setUserHost(dto.getUserChange());
-                else throw new RuntimeException("Could not change room host.");
+                else throw new RuntimeException(EMessage.NO_CHANGE_ROOM_HOST.getMessage());
             }
         }
     }
@@ -84,7 +85,7 @@ public class RoomService {
         for (RoomDTO room : roomManager.getRoomList()) {
             if (room.getId().equals(idRoom)) {
                 if (room.getUsers().contains(dto)) room.getUsers().remove(dto);
-                else throw new RuntimeException("Could not leave the room.");
+                else throw new RuntimeException(EMessage.NO_LEAVE_ROOM.getMessage());
             }
         }
     }

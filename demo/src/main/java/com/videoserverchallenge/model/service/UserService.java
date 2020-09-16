@@ -1,9 +1,11 @@
 package com.videoserverchallenge.model.service;
 
+import com.videoserverchallenge.model.domain.EMessage;
 import com.videoserverchallenge.model.entity.User;
 import com.videoserverchallenge.model.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ public class UserService {
             User userSave = repository.save(use);
             return userSave;
         } catch (Exception e) {
-            throw new RuntimeException("Could not save user.");
+            throw new RuntimeException(EMessage.NO_SAVE_USER.getMessage());
         }
     }
 
@@ -26,7 +28,7 @@ public class UserService {
             User user = repository.findByUser(userName);
             return user;
         } catch (Exception e) {
-            throw new RuntimeException("Could not return user.");
+            throw new RuntimeException(EMessage.NO_RETURN_USER.getMessage());
         }
     }
 
