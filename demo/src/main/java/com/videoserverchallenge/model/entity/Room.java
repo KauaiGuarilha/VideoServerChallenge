@@ -1,11 +1,10 @@
 package com.videoserverchallenge.model.entity;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,6 +18,5 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String pathImg;
+    @Column private String pathImg;
 }

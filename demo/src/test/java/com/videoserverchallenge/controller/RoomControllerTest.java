@@ -14,6 +14,9 @@ import com.videoserverchallenge.model.factory.RoomDTOResponseFactory;
 import com.videoserverchallenge.model.factory.UserRoomsDTOResponseFactory;
 import com.videoserverchallenge.model.service.RoomService;
 import com.videoserverchallenge.utils.JsonMapperUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,10 +26,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
 public class RoomControllerTest {
@@ -48,14 +47,14 @@ public class RoomControllerTest {
     @DisplayName("Should create a room")
     public void shouldCreateARoom() throws Exception {
 
-        doReturn(RoomDTO.builder().build()).when(service).createRoom(any(String.class), any(Integer.class), any(String.class), anyList());
+        doReturn(RoomDTO.builder().build())
+                .when(service)
+                .createRoom(any(String.class), any(Integer.class), any(String.class), anyList());
         doReturn(RoomDTOResponse.builder().build())
                 .when(roomFactory)
                 .dtoToResponse(any(RoomDTO.class));
 
-        mockMvc.perform(
-                        post("/room/create")
-                                .contentType(MediaType.MULTIPART_FORM_DATA))
+        mockMvc.perform(post("/room/create").contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

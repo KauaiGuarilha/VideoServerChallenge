@@ -5,15 +5,14 @@ import com.videoserverchallenge.model.dto.ChangeUserDTO;
 import com.videoserverchallenge.model.dto.RoomDTO;
 import com.videoserverchallenge.model.dto.UserDTO;
 import com.videoserverchallenge.model.entity.RoomManager;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
 import com.videoserverchallenge.model.entity.User;
 import com.videoserverchallenge.model.factory.UserDTOResponseFactory;
 import com.videoserverchallenge.model.parse.UserParser;
 import com.videoserverchallenge.model.repository.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +24,10 @@ public class RoomService {
     @Autowired private UserDTOResponseFactory factory;
     @Autowired private UserRepository repository;
 
-    public RoomDTO createRoom(String nameRoom, Integer capacityRoom, String host, List<String> users) {
+    public RoomDTO createRoom(
+            String nameRoom, Integer capacityRoom, String host, List<String> users) {
         UserDTO userHost = factory.toUserDTO(repository.findByUser(host));
-        if (Objects.isNull(userHost)){
+        if (Objects.isNull(userHost)) {
             throw new RuntimeException(EMessage.NO_USERS_REGISTERED.getMessage() + host);
         }
 
@@ -35,16 +35,17 @@ public class RoomService {
 
         List<UserDTO> listUsersDTO = new ArrayList<>();
 
-        for (User user : listUsers){
+        for (User user : listUsers) {
             listUsersDTO.add(roomParser.parseTo(user));
         }
 
-        RoomDTO roomDTO = RoomDTO.builder()
-                .capacityLimit(capacityRoom)
-                .roomName(nameRoom)
-                .userHost(userHost)
-                .users(listUsersDTO)
-                .build();
+        RoomDTO roomDTO =
+                RoomDTO.builder()
+                        .capacityLimit(capacityRoom)
+                        .roomName(nameRoom)
+                        .userHost(userHost)
+                        .users(listUsersDTO)
+                        .build();
 
         roomManager.setRoomList(roomDTO);
         return roomDTO;
@@ -112,12 +113,12 @@ public class RoomService {
         return rooms;
     }
 
-    private List<User> getUsers(List<String> users){
+    private List<User> getUsers(List<String> users) {
         List<User> listUsers = new ArrayList<>();
 
-        for (String user : users){
+        for (String user : users) {
             User userBase = repository.findByUser(user);
-            if (users.isEmpty()){
+            if (users.isEmpty()) {
                 continue;
             }
             listUsers.add(userBase);

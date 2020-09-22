@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserParser {
 
-    public UserDTO parseTo(User user){
+    public UserDTO parseTo(User user) {
         return UserDTO.builder()
                 .name(user.getName())
                 .password(user.getPassword())

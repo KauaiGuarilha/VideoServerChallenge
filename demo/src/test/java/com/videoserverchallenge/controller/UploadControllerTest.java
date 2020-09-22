@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.videoserverchallenge.model.service.FirebaseStorageService;
 import io.restassured.internal.util.IOUtils;
+import java.io.FileInputStream;
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,18 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-
 @SpringBootTest
 public class UploadControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
-    private FirebaseStorageService service;
-    @InjectMocks
-    private UploadController controller;
+    @Mock private FirebaseStorageService service;
+    @InjectMocks private UploadController controller;
 
     @BeforeEach
     private void setup() {
@@ -42,13 +39,16 @@ public class UploadControllerTest {
     @DisplayName("Should upload a file")
     public void shouldUploadFile() throws Exception {
 
-        doReturn("Test").when(service).upload(any(String.class), any(String.class), any(MultipartFile.class));
+        doReturn("Test")
+                .when(service)
+                .upload(any(String.class), any(String.class), any(MultipartFile.class));
 
-        mockMvc.perform(multipart("/upload/upload-file")
-                .file(recuperaMockMultipartAquivo())
-                .param("fileName", recuperaMockMultipartAquivo().getName())
-                .param("mimiType", recuperaMockMultipartAquivo().getContentType())
-                .contentType(MediaType.MULTIPART_FORM_DATA))
+        mockMvc.perform(
+                        multipart("/upload/upload-file")
+                                .file(recuperaMockMultipartAquivo())
+                                .param("fileName", recuperaMockMultipartAquivo().getName())
+                                .param("mimiType", recuperaMockMultipartAquivo().getContentType())
+                                .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -57,13 +57,16 @@ public class UploadControllerTest {
     @DisplayName("Should save a file")
     public void shouldSaveFile() throws Exception {
 
-        doReturn("Test").when(service).uploadDatabase(any(String.class), any(String.class), any(MultipartFile.class));
+        doReturn("Test")
+                .when(service)
+                .uploadDatabase(any(String.class), any(String.class), any(MultipartFile.class));
 
-        mockMvc.perform(multipart("/upload/save-path")
-                .file(recuperaMockMultipartAquivo())
-                .param("fileName", recuperaMockMultipartAquivo().getName())
-                .param("mimiType", recuperaMockMultipartAquivo().getContentType())
-                .contentType(MediaType.MULTIPART_FORM_DATA))
+        mockMvc.perform(
+                        multipart("/upload/save-path")
+                                .file(recuperaMockMultipartAquivo())
+                                .param("fileName", recuperaMockMultipartAquivo().getName())
+                                .param("mimiType", recuperaMockMultipartAquivo().getContentType())
+                                .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
