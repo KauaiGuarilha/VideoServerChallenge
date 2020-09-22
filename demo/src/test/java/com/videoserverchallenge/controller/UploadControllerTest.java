@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.videoserverchallenge.model.dto.UploadDTOResponse;
 import com.videoserverchallenge.model.service.FirebaseStorageService;
 import io.restassured.internal.util.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
